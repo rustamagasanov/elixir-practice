@@ -4,10 +4,8 @@ defmodule Issues.GithubIssues do
 
   def fetch(user, project) do
     issues_url(user, project)
-      |> HTTPoison.get(@user_agent)
-      |> handle_response
-      |> decode_response
-      |> convert_to_list_of_hashdicts
+    |> HTTPoison.get(@user_agent)
+    |> handle_response
   end
 
   def issues_url(user, project) do
@@ -19,16 +17,5 @@ defmodule Issues.GithubIssues do
   end
   def handle_response({ :error, %HTTPoison.Error{ reason: reason } }) do
     { :error, :jsx.decode(reason) }
-  end
-
-  def decode_response({ :ok, body }), do: body
-  def decode_response({ :error, reason }) do
-    IO.puts "Error fetching from Github, reason: #{reason}"
-    System.halt(2)
-  end
-
-  def convert_to_list_of_hashdicts(list) do
-    list
-      |> Enum.map(&Enum.into(&1, HashDict.new))
   end
 end
