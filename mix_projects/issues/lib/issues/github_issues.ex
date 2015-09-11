@@ -1,15 +1,17 @@
 defmodule Issues.GithubIssues do
   @user_agent [ { "User-agent", "Elixir rustamagasanov@gmail.com" } ]
+  @github_url Application.get_env(:issues, :github_url)
 
   def fetch(user, project) do
     issues_url(user, project)
       |> HTTPoison.get(@user_agent)
       |> handle_response
       |> decode_response
+      |> convert_to_list_of_hashdicts
   end
 
   def issues_url(user, project) do
-    "https://api.github.com/repos/#{user}/#{project}/issues"
+    "#{@github_url}/repos/#{user}/#{project}/issues"
   end
 
   def handle_response({ :ok, %HTTPoison.Response{ status_code: 200, body: body } }) do
@@ -23,5 +25,10 @@ defmodule Issues.GithubIssues do
   def decode_response({ :error, reason }) do
     IO.puts "Error fetching from Github, reason: #{reason}"
     System.halt(2)
+  end
+
+  def convert_to_list_of_hashdicts(list) do
+    list
+      |> Enum.map(&Enum.into(&1, HashDict.new))
   end
 end
