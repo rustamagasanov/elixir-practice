@@ -43,6 +43,7 @@ defmodule Issues.CLI do
     |> convert_to_list_of_hashdicts
     |> sort_into_ascending_order
     |> Enum.take(count)
+    |> print_table_for_columns(["number", "created_at", "title"])
   end
 
   def decode_response({ :ok, body }), do: body
@@ -58,5 +59,9 @@ defmodule Issues.CLI do
 
   def sort_into_ascending_order(list_of_issues) do
     Enum.sort list_of_issues, &(&1["created_at"] <= &2["created_at"])
+  end
+
+  def print_table_for_columns(list_of_issues, columns) do
+    Issues.TableFormatter.print_table_for_columns(list_of_issues, columns)
   end
 end
