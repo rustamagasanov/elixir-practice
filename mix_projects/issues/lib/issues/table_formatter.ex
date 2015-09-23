@@ -71,7 +71,7 @@ defmodule Issues.TableFormatter do
   ## Example
       iex> widths = [5,6,99]
       iex> Issues.TableFormatter.format_for(widths)
-      "~-5s | ~-6s | ~-99s~n"
+      "| ~-5s | ~-6s | ~-99s |~n"
   """
   def format_for(column_widths) do
     "| " <> map_join(column_widths, " | ", fn width -> "~-#{width}s" end) <> " |~n"
@@ -84,7 +84,7 @@ defmodule Issues.TableFormatter do
   ## Example
         iex> widths = [5,6,9]
         iex> Issues.TableFormatter.separator(widths)
-        "------+--------+----------"
+        "|-------+--------+-----------|"
   """
   def separator(column_widths) do
     "|-" <> map_join(column_widths, "-+-", fn width -> List.duplicate("-", width) end) <> "-|"
