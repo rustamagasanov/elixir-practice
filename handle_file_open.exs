@@ -3,5 +3,5 @@ handle_open = fn
   { _  , error } -> IO.puts "Error: #{:file.format_error(error)}"
 end
 
-handle_open.(File.open("1"))
-handle_open.(File.open("2"))
+handle_open.(File.open("handle_file_open.txt"))
+handle_open.(File.open("unexisting_file.txt"))
