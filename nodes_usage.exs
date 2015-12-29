@@ -11,5 +11,6 @@
 
 # SECURITY
 
-# iex --sname one --cookie chocolate-chip  - sets cookie(authorization string) for a node
+# cat ~/.erlang.cookie                     - default cookie(authorization string)
+# iex --sname one --cookie chocolate-chip  - sets cookie for a node
 # Node.get_cookie => :"chocolate-chip"
