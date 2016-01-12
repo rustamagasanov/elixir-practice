@@ -1,20 +1,21 @@
-defmodule Link1 do
+defmodule Monitor1 do
   import :timer, only: [ sleep: 1 ]
 
-  def sad_function do
+  def sad_method do
     sleep 500
     exit(:boom)
   end
+
   def run do
-    Process.flag(:trap_exit, true)
-    spawn(Link1, :sad_function, [])
+    res = spawn_monitor(Monitor1, :sad_method, [])
+    IO.puts inspect res
     receive do
       msg ->
         IO.puts "MESSAGE RECEIVED: #{inspect msg}"
     after 1000 ->
-      IO.puts "Nothing happened as far as I am concerned"
+        IO.puts "Nothing happened as far as I am concerned"
     end
   end
 end
 
-Link1.run
+Monitor1.run
